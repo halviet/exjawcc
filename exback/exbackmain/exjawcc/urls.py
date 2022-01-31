@@ -1,6 +1,8 @@
-from django.urls import path, include
+from django.urls import path, include, re_path
 # from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from django.conf import settings
+from django.conf.urls.static import static
 
 from .views import *
 
@@ -25,4 +27,6 @@ urlpatterns = [
     path('link/update/<int:pk>', LinkUpdateView.as_view()),
     path('link/create', LinkCreateView.as_view()),
     path('link/all', LinkListView.as_view()),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += [re_path(r'^.*', include('start.urls'))]
